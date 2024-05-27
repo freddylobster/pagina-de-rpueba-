@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Prueba</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        #gameArea {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border: 1px solid #000;
+            background-color: #fff;
+            margin-top: 20px;
+        }
+        #player {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Página de Prueba</h1>
+        <p>Esta es una página de prueba para insertar en Google Sites.</p>
+        <img src="https://via.placeholder.com/300" alt="Imagen de prueba">
+        <div id="gameArea">
+            <div id="player"></div>
+        </div>
+    </div>
+    <script>
+        const player = document.getElementById('player');
+        const gameArea = document.getElementById('gameArea');
+        const gravity = 0.5;
+        const jumpStrength = 10;
+        const speed = 5;
+        let posX = 225;
+        let posY = 0;
+        let velocityY = 0;
+        let onGround = false;
+
+        function updatePlayerPosition() {
+            velocityY += gravity;
+            posY += velocityY;
+
+            // Check for collision with the ground
+            if (posY + player.offsetHeight > gameArea.offsetHeight) {
+                posY = gameArea.offsetHeight - player.offsetHeight;
+                velocityY = 0;
+                onGround = true;
+            }
+
+            player.style.left = posX + 'px';
+            player.style.top = posY + 'px';
+        }
+
+        function movePlayer(e) {
+            if (e.key === 'ArrowLeft') {
+                posX -= speed;
+            } else if (e.key === 'ArrowRight') {
+                posX += speed;
+            } else if (e.key === ' ' && onGround) {
+                velocityY = -jumpStrength;
+                onGround = false;
+            }
+
+            // Ensure the player stays within the game area horizontally
+            if (posX < 0) {
+                posX = 0;
+            } else if (posX + player.offsetWidth > gameArea.offsetWidth) {
+                posX = gameArea.offsetWidth - player.offsetWidth;
+            }
+        }
+
+        document.addEventListener('keydown', movePlayer);
+        
+        function gameLoop() {
+            updatePlayerPosition();
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+    </script>
+</body>
+</html>
