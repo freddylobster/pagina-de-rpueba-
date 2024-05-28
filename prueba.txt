@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Prueba</title>
+    <title>Cuadrado Azul que Salta</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,9 +39,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>Página de Prueba</h1>
-        <p>Esta es una página de prueba para insertar en Google Sites.</p>
-        <img src="https://via.placeholder.com/300" alt="Imagen de prueba">
+        <h1>Cuadrado Azul que Salta</h1>
+        <p>Presiona la barra espaciadora para hacer saltar el cuadrado.</p>
         <div id="gameArea">
             <div id="player"></div>
         </div>
@@ -51,7 +50,6 @@
         const gameArea = document.getElementById('gameArea');
         const gravity = 0.5;
         const jumpStrength = 10;
-        const speed = 5;
         let posX = 225;
         let posY = 0;
         let velocityY = 0;
@@ -72,25 +70,14 @@
             player.style.top = posY + 'px';
         }
 
-        function movePlayer(e) {
-            if (e.key === 'ArrowLeft') {
-                posX -= speed;
-            } else if (e.key === 'ArrowRight') {
-                posX += speed;
-            } else if (e.key === ' ' && onGround) {
+        function handleKeyPress(e) {
+            if (e.key === ' ' && onGround) {
                 velocityY = -jumpStrength;
                 onGround = false;
             }
-
-            // Ensure the player stays within the game area horizontally
-            if (posX < 0) {
-                posX = 0;
-            } else if (posX + player.offsetWidth > gameArea.offsetWidth) {
-                posX = gameArea.offsetWidth - player.offsetWidth;
-            }
         }
 
-        document.addEventListener('keydown', movePlayer);
+        document.addEventListener('keydown', handleKeyPress);
         
         function gameLoop() {
             updatePlayerPosition();
@@ -101,3 +88,4 @@
     </script>
 </body>
 </html>
+
